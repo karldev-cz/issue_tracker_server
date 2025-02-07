@@ -28,9 +28,9 @@ import { IssueRepository } from './modules/issues/repositories/issue.repository'
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Issue, IssueStatus, TimeEntry, IssueRepository]),
+    TypeOrmModule.forFeature([Issue, IssueStatus, TimeEntry]),
   ],
-  providers: [IssueService, TimeTrackingService],
+  providers: [IssueService, TimeTrackingService, IssueRepository],
   exports: [IssueService, TimeTrackingService],
 })
 export class AppModule {}

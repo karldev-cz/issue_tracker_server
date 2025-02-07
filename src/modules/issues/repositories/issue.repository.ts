@@ -1,10 +1,15 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { DataSource, Repository } from 'typeorm';
 import { Issue } from '../entities/issue.entity';
 import { CreateIssueDto } from '../dto/create-issue.dto';
 import { UpdateIssueDto } from '../dto/update-issue.dto';
 
-@EntityRepository(Issue)
+@Injectable()
 export class IssueRepository extends Repository<Issue> {
+  constructor(private dataSource: DataSource) {
+    super(Issue, dataSource.createEntityManager());
+  }
+
   async findByStatus(status: string): Promise<Issue[]> {
     return this.createQueryBuilder('issue')
       .leftJoinAndSelect('issue.status', 'status')
@@ -18,8 +23,19 @@ export class IssueRepository extends Repository<Issue> {
     return this.save(issue);
   }
 
-  async updateIssue(id: number, updateIssueDto: UpdateIssueDto): Promise<Issue> {
-    await this.update(id, updateIssueDto);
-    return this.findOne(id);
+  async updateIssue(
+    id: number,
+    updateIssueDto: UpdateIssueDto,
+  ): Promise<Issue> {
+    await this.update(id, {
+      ...updateIssueDto,
+      status: updateIssueDto.status
+        ? { name: updateIssueDto.status }
+        : undefined,
+    });
+    return this.findOne({
+      where: { id },
+      relations: ['status', 'timeEntries'],
+    });
   }
-} 
+}

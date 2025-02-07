@@ -1,6 +1,6 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator';
 
-enum IssueStatus {
+export enum IssueStatus {
   OPEN = 'open',
   IN_PROGRESS = 'in_progress',
   CLOSED = 'closed',

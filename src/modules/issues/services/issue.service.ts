@@ -30,10 +30,13 @@ export class IssueService {
   async update(id: number, updateIssueDto: UpdateIssueDto): Promise<Issue> {
     const issue = await this.issueRepository.findOne({
       where: { id },
+      relations: ['status', 'timeEntries'],
     });
+
     if (!issue) {
       throw new NotFoundException(`Issue with ID ${id} not found`);
     }
+
     return this.issueRepository.updateIssue(id, updateIssueDto);
   }
 
