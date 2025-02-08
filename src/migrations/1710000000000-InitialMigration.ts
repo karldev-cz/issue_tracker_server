@@ -37,7 +37,8 @@ export class InitialMigration1710000000000 implements MigrationInterface {
                 issue_id INTEGER NOT NULL REFERENCES issues(id) ON DELETE CASCADE,
                 start_time TIMESTAMP WITH TIME ZONE NOT NULL,
                 end_time TIMESTAMP WITH TIME ZONE,
-                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         `);
 

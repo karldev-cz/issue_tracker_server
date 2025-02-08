@@ -9,11 +9,9 @@ import { IssueRepository } from './repositories/issue.repository';
 import { IssueController } from './controllers/issue.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Issue, IssueStatus, TimeEntry, IssueRepository]),
-  ],
+  imports: [TypeOrmModule.forFeature([Issue, IssueStatus, TimeEntry])],
   controllers: [IssueController],
-  providers: [IssueService, TimeTrackingService],
+  providers: [IssueService, TimeTrackingService, IssueRepository],
   exports: [IssueService, TimeTrackingService],
 })
-export class IssuesModule {} 
+export class IssuesModule {}

@@ -1,21 +1,15 @@
-import { IsString, IsOptional, IsEnum } from 'class-validator';
-
-export enum IssueStatus {
-  OPEN = 'open',
-  IN_PROGRESS = 'in_progress',
-  CLOSED = 'closed',
-}
+import { IsString, IsOptional } from 'class-validator';
 
 export class UpdateIssueDto {
-  @IsString()
   @IsOptional()
+  @IsString()
   title?: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   description?: string;
 
-  @IsEnum(IssueStatus)
   @IsOptional()
-  status?: IssueStatus;
+  @IsString()
+  status?: string;
 }

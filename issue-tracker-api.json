@@ -1,0 +1,127 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2024-03-19T10:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v8",
+  "resources": [
+    {
+      "_id": "req_root",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012",
+      "name": "Root",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_issue_tracker",
+      "parentId": null,
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "name": "Issue Tracker API",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_get_all_issues",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012/issues",
+      "name": "Get All Issues",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_issue",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012/issues",
+      "name": "Create Issue",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"title\": \"Test Issue\",\n\t\"description\": \"This is a test issue description\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_issue",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012/issues/1",
+      "name": "Update Issue",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"title\": \"Updated Title\",\n\t\"status\": \"in_progress\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_issue",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012/issues/1",
+      "name": "Delete Issue",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_start_tracking",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012/issues/1/start",
+      "name": "Start Time Tracking",
+      "description": "",
+      "method": "POST",
+      "body": {},
+      "parameters": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_stop_tracking",
+      "parentId": "wrk_issue_tracker",
+      "modified": 1647682892564,
+      "created": 1647682892564,
+      "url": "http://localhost:3012/issues/1/stop",
+      "name": "Stop Time Tracking",
+      "description": "",
+      "method": "POST",
+      "body": {},
+      "parameters": [],
+      "_type": "request"
+    }
+  ]
+}

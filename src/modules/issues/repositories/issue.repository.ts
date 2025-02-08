@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, DeepPartial } from 'typeorm';
 import { Issue } from '../entities/issue.entity';
 import { CreateIssueDto } from '../dto/create-issue.dto';
 import { UpdateIssueDto } from '../dto/update-issue.dto';
+import {
+  getStatusIdByName,
+  ISSUE_STATUSES,
+} from '../constants/issue-status.constants';
 
 @Injectable()
 export class IssueRepository extends Repository<Issue> {
@@ -19,7 +23,11 @@ export class IssueRepository extends Repository<Issue> {
   }
 
   async createIssue(createIssueDto: CreateIssueDto): Promise<Issue> {
-    const issue = this.create(createIssueDto);
+    const issue = this.create({
+      ...createIssueDto,
+      statusId: ISSUE_STATUSES.OPEN.id,
+    });
+
     return this.save(issue);
   }
 
@@ -27,12 +35,17 @@ export class IssueRepository extends Repository<Issue> {
     id: number,
     updateIssueDto: UpdateIssueDto,
   ): Promise<Issue> {
-    await this.update(id, {
-      ...updateIssueDto,
-      status: updateIssueDto.status
-        ? { name: updateIssueDto.status }
-        : undefined,
-    });
+    const updateData: DeepPartial<Issue> = {
+      title: updateIssueDto.title,
+      description: updateIssueDto.description,
+    };
+
+    if (updateIssueDto.status) {
+      updateData.statusId = getStatusIdByName(updateIssueDto.status);
+    }
+
+    await this.update(id, updateData);
+
     return this.findOne({
       where: { id },
       relations: ['status', 'timeEntries'],

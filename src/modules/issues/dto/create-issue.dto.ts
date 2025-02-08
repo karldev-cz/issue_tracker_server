@@ -8,4 +8,6 @@ export class CreateIssueDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  // status_id is set automatically, not part of the DTO
 }
