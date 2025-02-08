@@ -7,9 +7,5 @@ export class UpdateIssueDto {
 
   @IsOptional()
   @IsString()
-  description?: string;
-
-  @IsOptional()
-  @IsString()
   status?: string;
 }

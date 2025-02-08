@@ -19,9 +19,6 @@ export class Issue {
   @Column()
   title: string;
 
-  @Column({ nullable: true })
-  description: string;
-
   @Column({ name: 'status_id' })
   statusId: number;
 

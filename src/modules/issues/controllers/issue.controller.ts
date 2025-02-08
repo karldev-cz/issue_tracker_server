@@ -12,7 +12,7 @@ import { IssueService } from '../services/issue.service';
 import { TimeTrackingService } from '../services/time-tracking.service';
 import { CreateIssueDto } from '../dto/create-issue.dto';
 import { UpdateIssueDto } from '../dto/update-issue.dto';
-import { Issue } from '../entities/issue.entity';
+import { IssueDto } from '../dto/issue.dto';
 import { TimeEntry } from '../entities/time-entry.entity';
 
 @Controller('issues')
@@ -23,12 +23,12 @@ export class IssueController {
   ) {}
 
   @Get()
-  async findAll(): Promise<Issue[]> {
+  async findAll(): Promise<IssueDto[]> {
     return this.issueService.findAll();
   }
 
   @Post()
-  async create(@Body() createIssueDto: CreateIssueDto): Promise<Issue> {
+  async create(@Body() createIssueDto: CreateIssueDto): Promise<IssueDto> {
     return this.issueService.create(createIssueDto);
   }
 
@@ -36,7 +36,7 @@ export class IssueController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateIssueDto: UpdateIssueDto,
-  ): Promise<Issue> {
+  ): Promise<IssueDto> {
     return this.issueService.update(id, updateIssueDto);
   }
 

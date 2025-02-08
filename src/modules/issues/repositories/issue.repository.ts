@@ -24,11 +24,15 @@ export class IssueRepository extends Repository<Issue> {
 
   async createIssue(createIssueDto: CreateIssueDto): Promise<Issue> {
     const issue = this.create({
-      ...createIssueDto,
+      title: createIssueDto.title,
       statusId: ISSUE_STATUSES.OPEN.id,
     });
 
-    return this.save(issue);
+    const savedIssue = await this.save(issue);
+    return this.findOne({
+      where: { id: savedIssue.id },
+      relations: ['status', 'timeEntries'],
+    });
   }
 
   async updateIssue(
@@ -37,7 +41,6 @@ export class IssueRepository extends Repository<Issue> {
   ): Promise<Issue> {
     const updateData: DeepPartial<Issue> = {
       title: updateIssueDto.title,
-      description: updateIssueDto.description,
     };
 
     if (updateIssueDto.status) {

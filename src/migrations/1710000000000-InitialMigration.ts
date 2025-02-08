@@ -23,7 +23,6 @@ export class InitialMigration1710000000000 implements MigrationInterface {
             CREATE TABLE issues (
                 id SERIAL PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
-                description TEXT,
                 status_id INTEGER NOT NULL REFERENCES issue_statuses(id),
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP

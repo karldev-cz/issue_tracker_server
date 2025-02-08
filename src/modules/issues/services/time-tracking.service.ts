@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TimeEntry } from '../entities/time-entry.entity';
@@ -23,7 +28,9 @@ export class TimeTrackingService {
 
     const activeSession = await this.findActiveSession(issueId);
     if (activeSession) {
-      throw new Error('Issue is already being tracked');
+      throw new ConflictException(
+        'Time tracking is already active for this issue',
+      );
     }
 
     const timeEntry = this.timeEntryRepository.create({
@@ -37,11 +44,18 @@ export class TimeTrackingService {
   async stopTracking(issueId: number): Promise<TimeEntry> {
     const activeSession = await this.findActiveSession(issueId);
     if (!activeSession) {
-      throw new Error('No active tracking session found');
+      throw new BadRequestException(
+        'No active time tracking session found for this issue',
+      );
     }
 
     activeSession.endTime = new Date();
-    return this.timeEntryRepository.save(activeSession);
+    await this.timeEntryRepository.save(activeSession);
+
+    return this.timeEntryRepository.findOne({
+      where: { id: activeSession.id },
+      relations: ['issue', 'issue.timeEntries'],
+    });
   }
 
   calculateTotalTimeSpent(timeEntries: TimeEntry[]): string {
@@ -61,12 +75,13 @@ export class TimeTrackingService {
   }
 
   private async findActiveSession(issueId: number): Promise<TimeEntry | null> {
-    return this.timeEntryRepository.findOne({
-      where: {
-        issue: { id: issueId },
-        endTime: null,
-      },
-    });
+    return this.timeEntryRepository
+      .createQueryBuilder('timeEntry')
+      .leftJoinAndSelect('timeEntry.issue', 'issue')
+      .leftJoinAndSelect('issue.timeEntries', 'timeEntries')
+      .where('issue.id = :issueId', { issueId })
+      .andWhere('timeEntry.endTime IS NULL')
+      .getOne();
   }
 
   async isIssueCurrentlyTracked(issueId: number): Promise<boolean> {
