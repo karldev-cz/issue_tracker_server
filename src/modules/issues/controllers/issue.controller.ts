@@ -58,4 +58,13 @@ export class IssueController {
   ): Promise<TimeEntry> {
     return this.timeTrackingService.stopTracking(id);
   }
+
+  @Get(':id/status')
+  async getTrackingStatus(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ isRunning: boolean }> {
+    const isRunning =
+      await this.timeTrackingService.isIssueCurrentlyTracked(id);
+    return { isRunning };
+  }
 }
