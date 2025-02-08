@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { IssuesModule } from './modules/issues/issues.module';
 import { IssueService } from './modules/issues/services/issue.service';
 import { TimeTrackingService } from './modules/issues/services/time-tracking.service';
 import { Issue } from './modules/issues/entities/issue.entity';
@@ -29,6 +30,7 @@ import { IssueRepository } from './modules/issues/repositories/issue.repository'
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Issue, IssueStatus, TimeEntry]),
+    IssuesModule,
   ],
   providers: [IssueService, TimeTrackingService, IssueRepository],
   exports: [IssueService, TimeTrackingService],
